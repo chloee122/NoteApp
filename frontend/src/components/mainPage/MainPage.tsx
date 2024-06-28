@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NoteForm from "./NoteForm";
-import useAppContext from "../hooks/useAppContext";
-import NoteList from "./NoteList";
-import { MainPageWrapper, UserSection, NoteView } from "./styles/MainPage.styled";
+import NoteForm from "../noteForm/NoteForm";
+import useAppContext from "../../hooks/useAppContext";
+import NoteList from "../noteList/NoteList";
+import {
+  MainPageWrapper,
+  UserSection,
+  NoteView,
+} from "../styles/MainPage.styled";
 
-import Button from "./styles/shared/Button.styled";
-
+import Button from "../styles/shared/Button.styled";
 
 function MainPage() {
   const [showAll, setShowAll] = useState(true);

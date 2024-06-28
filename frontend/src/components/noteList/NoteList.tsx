@@ -1,6 +1,6 @@
-import { Note } from "../common/internal";
+import { Note } from "../../common/internal";
 import NoteItem from "./NoteItem";
-import { NoteListWrapper, ListWrapper } from "./styles/NoteList.styled";
+import { NoteListWrapper, ListWrapper } from "../styles/NoteList.styled";
 
 interface NoteListProps {
   notes: Note[];
