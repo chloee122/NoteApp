@@ -1,5 +1,5 @@
-import useAppContext from "../hooks/useAppContext";
-import { NotificationWrapper } from "./styles/Notification.styled";
+import useAppContext from "../../hooks/useAppContext";
+import { NotificationWrapper } from "../styles/Notification.styled";
 
 function Notification() {
   const { errorMessage } = useAppContext();

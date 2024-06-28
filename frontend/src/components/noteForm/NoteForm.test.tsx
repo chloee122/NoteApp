@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import NoteForm from "./NoteForm";
 import userEvent from "@testing-library/user-event";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 
 test("<NoteForm/> updates parent state and calls onSubmit", async () => {
   const mockAddNote = vi.fn();

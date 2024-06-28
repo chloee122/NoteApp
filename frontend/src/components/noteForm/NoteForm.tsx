@@ -1,8 +1,8 @@
 import { useState } from "react";
-import useAppContext from "../hooks/useAppContext";
-import { NoteFormWrapper, Form } from "./styles/NoteForm.styled";
-import Input from "./styles/shared/Input.styled";
-import Button from "./styles/shared/Button.styled";
+import useAppContext from "../../hooks/useAppContext";
+import { NoteFormWrapper, Form } from "../styles/NoteForm.styled";
+import Input from "../styles/shared/Input.styled";
+import Button from "../styles/shared/Button.styled";
 
 function NoteForm() {
   const [newNote, setNewNote] = useState("");

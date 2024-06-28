@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import noteService from "../services/notes";
-import loginService from "../services/login";
+import noteService from "../api/notes";
+import loginService from "../api/login";
 import type { Note, User } from "../common/internal";
 import type { NoteToSend } from "../common/api.types";
 

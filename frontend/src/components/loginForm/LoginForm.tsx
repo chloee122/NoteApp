@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import useAppContext from "../hooks/useAppContext";
-import Input from "./styles/shared/Input.styled";
-import Button from "./styles/shared/Button.styled";
-import { LoginFormWrapper, FormWrapper, Form } from "./styles/LoginForm.styled";
+import useAppContext from "../../hooks/useAppContext";
+import Input from "../styles/shared/Input.styled";
+import Button from "../styles/shared/Button.styled";
+import {
+  LoginFormWrapper,
+  FormWrapper,
+  Form,
+} from "../styles/LoginForm.styled";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
