@@ -27,9 +27,9 @@ if (config.MONGODB_URI) {
     });
 }
 
-if (process.env.NODE_ENV !== "production") {
-  app.use(cors());
-}
+// if (process.env.NODE_ENV !== "production") {
+//   app.use(cors());
+// }
 
 app.use(express.static("dist"));
 app.use(express.json());
