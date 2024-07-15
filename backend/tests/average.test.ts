@@ -1,6 +1,6 @@
-import { average } from "../utils/test_util";
 import { test, describe } from "node:test";
 import assert from "node:assert";
+import { average } from "../utils/test_util";
 
 describe("average", async () => {
   await test("of one value is the value itself", () => {
