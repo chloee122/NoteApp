@@ -36,7 +36,7 @@ app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/api/notes", notesRouter);
+app.use("/api/notes", middleware.validateToken, notesRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("*", redirectToRootRouter);

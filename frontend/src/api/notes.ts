@@ -2,38 +2,28 @@ import axios from "axios";
 import type { Note } from "../common/internal";
 import type { NoteToSend } from "../common/api.types";
 
-const baseUrl = "/api/notes";
-
-let token: string | null = null;
-
-export const setToken = (newToken: string) => {
-  token = `Bearer ${newToken}`;
-};
+export const noteApiClient = axios.create({
+  baseURL: "/api/notes",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export const getAll = async (): Promise<Note[]> => {
-  const response = await axios.get<Note[]>(baseUrl);
+  const response = await noteApiClient.get<Note[]>("");
   return response.data;
 };
 
 export const create = async (newObject: NoteToSend): Promise<Note> => {
-  const config = {
-    headers: {
-      Authorization: token,
-    },
-  };
-
-  const response = await axios.post<Note>(baseUrl, newObject, config);
+  const response = await noteApiClient.post<Note>("", newObject);
   return response.data;
 };
 
 export const update = async (id: string, newObject: Note): Promise<Note> => {
-  const response = await axios.put<Note>(
-    `${baseUrl}/${id}`,
-    newObject
-  );
+  const response = await noteApiClient.put<Note>(`/${id}`, newObject);
   return response.data;
 };
 
 export const remove = async (id: string): Promise<void> => {
-  await axios.delete(`${baseUrl}/${id}`);
+  await noteApiClient.delete(`/${id}`);
 };

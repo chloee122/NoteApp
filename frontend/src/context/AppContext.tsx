@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import * as noteService from "../api/notes";
 import * as authService from "../api/auth";
-import type { Note, User } from "../common/internal";
+import type { AuthResponse, Note, User } from "../common/internal";
 import type { LoginInFormData, NoteToSend, SignUpFormData } from "../common/api.types";
 import showToastError from "../utils/showToastError";
 
@@ -27,6 +27,7 @@ export function AppProvider({ children }: AppProviderProps) {
   const [notes, setNotes] = useState<AppContextType["notes"]>([]);
 
   useEffect(() => {
+    if (!user) return;
     const getNotes = async () => {
       try {
         const response: Note[] = await noteService.getAll();
@@ -37,22 +38,28 @@ export function AppProvider({ children }: AppProviderProps) {
     };
 
     getNotes();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
       const loggedUser = JSON.parse(loggedUserJSON) as User;
       setUser(loggedUser);
-      noteService.setToken(loggedUser.token);
     }
   }, []);
 
   const signup = async (signUpFormData: SignUpFormData) => {
     try {
-      const user: User = await authService.createUser(signUpFormData);
+      const authResponse: AuthResponse = await authService.createUser(signUpFormData);
+      const user = { username: authResponse.username, name: authResponse.name };
+      const tokens = {
+        accessToken: authResponse.accessToken,
+        refreshToken: authResponse.refreshToken,
+      };
+
       window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
-      noteService.setToken(user.token);
+      window.localStorage.setItem("tokens", JSON.stringify(tokens));
+
       setUser(user);
     } catch (error) {
       showToastError(error);
@@ -61,10 +68,16 @@ export function AppProvider({ children }: AppProviderProps) {
 
   const login = async (logInFormData: LoginInFormData) => {
     try {
-      const user: User = await authService.login(logInFormData);
+      const authResponse: AuthResponse = await authService.login(logInFormData);
+
+      const user = { username: authResponse.username, name: authResponse.name };
+      const tokens = {
+        accessToken: authResponse.accessToken,
+        refreshToken: authResponse.refreshToken,
+      };
 
       window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
-      noteService.setToken(user.token);
+      window.localStorage.setItem("tokens", JSON.stringify(tokens));
       setUser(user);
     } catch (error) {
       showToastError(error);
@@ -72,7 +85,7 @@ export function AppProvider({ children }: AppProviderProps) {
   };
 
   const logout = () => {
-    window.localStorage.removeItem("loggedNoteappUser");
+    window.localStorage.clear();
     setUser(null);
   };
 

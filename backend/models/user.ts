@@ -5,6 +5,7 @@ interface IUser {
   name: string;
   email: string;
   passwordHash: string;
+  refreshToken: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -12,6 +13,7 @@ const userSchema = new mongoose.Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
+  refreshToken: String,
 });
 
 userSchema.set("toJSON", {
@@ -20,6 +22,7 @@ userSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.passwordHash;
+    delete returnedObject.refreshToken;
   },
 });
 

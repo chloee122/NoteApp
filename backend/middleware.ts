@@ -7,13 +7,13 @@ export const requestLogger = (
   request: Request,
   _response: Response,
   next: NextFunction
-) => {
+  ) => {
   logger.info("Method:", request.method);
   logger.info("Path:  ", request.path);
   logger.info("Body:  ", request.body);
   logger.info("---");
   next();
-};
+  };
 
 export const unknownEndpoint = (_request: Request, response: Response) => {
   response.status(404).send({ error: "unknown endpoint" });
@@ -74,9 +74,16 @@ export const validateToken = (
   if (!token) {
     return response.status(401).json({ error: "Token is not provided" });
   }
-  const decodedToken = jwt.verify(token, getEnvVar("SECRET")) as jwt.JwtPayload;
-  request.userId = decodedToken.id;
-  next();
+  try {
+		const decodedToken = jwt.verify(
+			token,
+			getEnvVar("SECRET")
+		) as jwt.JwtPayload;
+		request.userId = decodedToken.id;
+		next();
+	} catch (error) {
+		response.status(403).json({ error: "Unauthorized" });
+	}
 };
 
 export const validateSignUpData = (
@@ -109,12 +116,4 @@ export const validateSignUpData = (
   }
 
   next();
-};
-
-export default {
-  requestLogger,
-  errorHandler,
-  unknownEndpoint,
-  validateToken,
-  validateSignUpData,
 };
